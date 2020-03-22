@@ -2,7 +2,7 @@ import random
 from math import sin, cos, pi
 import matplotlib.pyplot as plt
 import timeit
-
+from numpy import fft
 N = 256
 n = 8
 W = 2000
@@ -27,9 +27,22 @@ if __name__ == "__main__":
     time_start = timeit.default_timer()
     dft = get_DFT(X)
     print("Розрахунок часу DFT: {}".format(timeit.default_timer() - time_start))
+    time_start_np_DFT = timeit.default_timer()
+    dft_np = fft.fft(X)
+    print("Розрахунок часу numpy DFT: {}".format(timeit.default_timer() - time_start_np_DFT))
+
     figure, (plot_GenRandSignal_1, plot_DFT) = plt.subplots(2, figsize=(15, 15))
+    figure, (plot_GenRandSignal_2, plot_DFT_NP) = plt.subplots(2, figsize=(15,15))
+
     plot_GenRandSignal_1.plot(range(N), X, "g")
     plot_GenRandSignal_1.title.set_text("Згенерований випадковий сигнал")
+    plot_GenRandSignal_2.plot(range(N), X, "g")
+    plot_GenRandSignal_2.title.set_text("Згенерований випадковий сигнал")
+
+    plot_DFT_NP.plot(range(N), dft_np, "b")
     plot_DFT.plot(range(N), dft, "r")
     plot_DFT.title.set_text("Дискретне перетворення Фур'є")
+    plot_DFT_NP.title.set_text("Дискретне перетворення Фур'є (numpy)")
     plt.show()
+#Завдання: Порівняти із numpy DFT
+#Висновок: Графіки - однакові, numpy DFT - швидше.
